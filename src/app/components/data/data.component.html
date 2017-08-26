@@ -1,16 +1,25 @@
 <h4>Formularios <small>data</small></h4>
 <hr>
-<form>
+<form [formGroup]="forma" (ngSubmit)="guardarCambios()">
 
   <div>
 
-    <div class="form-group row">
+    <div class="form-group row" [ngClass]="{ 'has-danger': forma.get('nombre').invalid &&  forma.get('nombre').dirty}">
       <label class="col-2 col-form-label">Nombre</label>
       <div class="col-8">
 
         <input class="form-control"
                type="text"
-               placeholder="Nombre">
+               placeholder="Nombre"
+               formControlName="nombre">
+      </div>
+      <div *ngIf="forma.controls['nombre'].invalid && forma.controls['nombre'].dirty && forma.controls['nombre'].errors?.required" 
+           class="form-control-feedback">
+            Este campo es requerido
+      </div>
+      <div *ngIf="forma.controls['nombre'].invalid && forma.controls['nombre'].dirty && forma.controls['nombre'].errors?.minlength"   
+            class="form-control-feedback">
+            Por lo menos 3 caracteres
       </div>
     </div>
 
@@ -20,7 +29,8 @@
 
         <input class="form-control"
                type="text"
-               placeholder="Apellido">
+               placeholder="Apellido"
+               formControlName="apellido">
       </div>
     </div>
 
@@ -32,7 +42,8 @@
 
       <input class="form-control"
              type="email"
-             placeholder="Correo electrónico">
+             placeholder="Correo electrónico"
+             formControlName="correo">
     </div>
   </div>
 
@@ -48,3 +59,9 @@
   </div>
 
 </form>
+
+
+<pre>
+  {{ forma.valid }}
+  {{ forma.value | json }}
+</pre>
