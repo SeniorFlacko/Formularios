@@ -12,7 +12,7 @@ export class DataComponent implements OnInit {
 
   usuario:Object = {
     
-    nombreCompleto: {
+    nombrecompleto: {
       nombre:"Cristian",
       apellido:"Aleman"
     },
@@ -41,6 +41,8 @@ export class DataComponent implements OnInit {
                                ),
 
     });
+  
+    this.forma.setValue( this.usuario );
   }
 
   ngOnInit() {
@@ -48,5 +50,13 @@ export class DataComponent implements OnInit {
 
   guardarCambios(){
     console.log(this.forma);
+
+    this.forma.reset({
+      nombrecompleto:{
+        nombre:"",
+        apellido:""
+      },
+      correo:""
+    })
   }
 }
