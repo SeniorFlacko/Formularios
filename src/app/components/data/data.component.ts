@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-data',
@@ -41,11 +42,34 @@ export class DataComponent implements OnInit {
                                ),
       'pasatiempos': new FormArray([
         new FormControl('correr',Validators.required)
-      ])
+      ]),
+      'username': new FormControl('',Validators.required,this.existeUsuario),
+      'password1': new FormControl('',Validators.required),
+      'password2': new FormControl(''),
+
 
     });
   
     // this.forma.setValue( this.usuario );
+
+    this.forma.controls['password2'].setValidators([
+      Validators.required,
+      this.noIgual
+    ])
+
+    this.forma.controls['password1'].setValidators([
+      this.noIgual2
+    ])
+
+
+    this.forma.controls['username'].valueChanges.subscribe( data => {
+      console.log(data);
+    })
+
+    this.forma.controls['username'].statusChanges.subscribe( data => {
+      console.log(data);
+    })
+
   }
 
   ngOnInit() {
@@ -76,4 +100,40 @@ export class DataComponent implements OnInit {
 
     return null
    }
+
+   noIgual = (control:FormControl) => {
+    if(control.value !== this.forma.controls["password1"].value) {
+      return {
+        differentpass: true
+      }
+    }
+    return null;
+  }
+
+  noIgual2 = (control:FormControl) => {
+    if(control.value !== this.forma.controls["password2"].value) {
+      return {
+        differentpass: true
+      }
+    }
+    return null;
+  }
+
+  existeUsuario( control:FormControl ): Promise<any> | Observable<any> {
+    let promise = new Promise(
+      ( resolve, reject ) => {
+          setTimeout(() => {
+              if(control.value === "branast"){
+                resolve ( { existe:  true } )
+              }
+              else{
+                resolve ( null )
+              }
+            }, 3000 )
+      }
+    );
+
+    return promise;
+  }
+    
 }
