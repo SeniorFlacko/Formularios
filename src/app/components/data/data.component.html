@@ -2,9 +2,8 @@
 <hr>
 <form [formGroup]="forma" (ngSubmit)="guardarCambios()">
 
-  <div>
-
-    <div class="form-group row" [ngClass]="{ 'has-danger': forma.get('nombre').invalid &&  forma.get('nombre').dirty}">
+  <div formGroupName="nombrecompleto">
+    <div class="form-group row" [ngClass]="{ 'has-danger': forma.get('nombrecompleto.nombre').invalid &&  forma.get('nombrecompleto.nombre').dirty}">
       <label class="col-2 col-form-label">Nombre</label>
       <div class="col-8">
 
@@ -13,11 +12,11 @@
                placeholder="Nombre"
                formControlName="nombre">
       </div>
-      <div *ngIf="forma.controls['nombre'].invalid && forma.controls['nombre'].dirty && forma.controls['nombre'].errors?.required" 
+      <div *ngIf="forma.get('nombrecompleto.nombre').invalid && forma.get('nombrecompleto.nombre').dirty && forma.get('nombrecompleto.nombre').errors?.required" 
            class="form-control-feedback">
             Este campo es requerido
       </div>
-      <div *ngIf="forma.controls['nombre'].invalid && forma.controls['nombre'].dirty && forma.controls['nombre'].errors?.minlength"   
+      <div *ngIf="forma.get('nombrecompleto.nombre').invalid && forma.get('nombrecompleto.nombre').dirty && forma.get('nombrecompleto.nombre').errors?.minlength"   
             class="form-control-feedback">
             Por lo menos 3 caracteres
       </div>
